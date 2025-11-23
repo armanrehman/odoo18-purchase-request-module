@@ -41,20 +41,41 @@ Stores individual items in a purchase request:
 - **Security**: Access control for purchase users and managers
 - **Workflow**: Three states to track request progress
 
+## Prerequisites
+
+- Odoo 18 installed
+- PostgreSQL database running
+- Python 3.12+ with virtual environment
+- Purchase module installed in Odoo
+
+## Setup
+
+1. **Place module in addons path**: Clone this repository or copy the `purchase_request` folder to your Odoo `custom-addons` directory
+2. **Start Odoo server**:
+   ```bash
+   python3 -m odoo -c odoo.conf
+   ```
+   Or use your IDE's run configuration
+3. **Access Odoo**: Open browser and go to `http://localhost:8069`
+4. **Create database** (if first time): Follow Odoo setup wizard to create database
+5. **Login**: Use admin credentials to log in
+
 ## Installation
 
-1. Put this folder in your Odoo addons directory
-2. Update apps list in Odoo
-3. Install "Purchase Request" module
-4. Menu appears under Purchase → Purchase Request
+1. Go to **Apps** menu
+2. Click **Update Apps List** (top right)
+3. Search for "Purchase Request"
+4. Click **Install**
+5. Menu will appear under **Purchase → Purchase Request**
 
 ## How to Use
 
-1. Create a new purchase request
-2. Fill in branch, department, and dates
-3. Add line items in the Products tab (products, quantities, vendors)
-4. Click "Confirm Requisition" to change state to RFQ Sent
-5. Use "Print Purchase Requisition" to generate PDF
+1. **Install**: Go to Apps → Update Apps List → Search "Purchase Request" → Install
+2. **Access**: Navigate to Purchase → Purchase Request
+3. **Create Request**: Click Create → Fill in branch, department, dates → Save
+4. **Add Products**: Go to Products tab → Add lines with product, quantity, vendor, price → Save
+5. **Confirm**: Click "Confirm Requisition" button → Status changes to RFQ Sent
+6. **Print**: Click "Print Purchase Requisition" to generate PDF report
 
 ## Technical Details
 

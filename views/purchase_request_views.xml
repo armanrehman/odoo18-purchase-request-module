@@ -1,0 +1,127 @@
+<odoo>
+    <record id="view_purchase_request_tree" model="ir.ui.view">
+        <field name="name">purchase.request.tree</field>
+        <field name="model">purchase.request</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list string="Purchase Requests">
+                <field name="name"/>
+                <field name="requester_id"/>
+                <field name="branch"/>
+                <field name="department"/>
+                <field name="state"/>
+                <field name="posting_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_purchase_request_form" model="ir.ui.view">
+        <field name="name">purchase.request.form</field>
+        <field name="model">purchase.request</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Requisition">
+                <header>
+                    <button name="action_confirm_requisition" type="object" string="Confirm Requisition" class="btn-primary" invisible="state != 'rfq'"/>
+                    <button name="action_print_requisition" type="object" string="Print Purchase Requisition"/>
+                    <field name="state" widget="statusbar" statusbar_visible="rfq,rfq_sent,purchase_order"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="requester_id"/>
+                            <field name="branch"/>
+                            <field name="department"/>
+                        </group>
+                        <group>
+                            <field name="posting_date"/>
+                            <field name="valid_until"/>
+                            <field name="document_date"/>
+                            <field name="required_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="line_ids">
+                                <list editable="bottom" string="Request Lines">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="item_description"/>
+                                    <field name="vendor_id"/>
+                                    <field name="required_date"/>
+                                    <field name="required_qty"/>
+                                    <field name="info_price"/>
+                                    <field name="product_uom_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Other Information">
+                            <!-- Add any additional fields here as needed -->
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_purchase_request_search" model="ir.ui.view">
+        <field name="name">purchase.request.search</field>
+        <field name="model">purchase.request</field>
+        <field name="arch" type="xml">
+            <search string="Purchase Requests">
+                <filter name="all_requests" string="All Purchase Requests" domain="[]"/>
+                <filter name="my_requests" string="My Purchase Requests" domain="[('requester_id', '=', uid)]"/>
+                <filter name="rfq" string="RFQ" domain="[('state','=','rfq')]"/>
+                <filter name="rfq_sent" string="RFQ Sent" domain="[('state','=','rfq_sent')]"/>
+                <filter name="purchase_order" string="Purchase Order" domain="[('state','=','purchase_order')]"/>
+                <field name="name"/>
+                <field name="requester_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_purchase_request_kanban" model="ir.ui.view">
+        <field name="name">purchase.request.kanban</field>
+        <field name="model">purchase.request</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_card_content">
+                                <div class="o_kanban_primary_left">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                    <div>
+                                        <field name="requester_id"/>
+                                    </div>
+                                    <div>
+                                        <field name="branch"/>
+                                    </div>
+                                    <div>
+                                        <field name="department"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_primary_right">
+                                    <field name="state" widget="statusbar"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_purchase_request_tree" model="ir.actions.act_window">
+        <field name="name">Purchase Request</field>
+        <field name="res_model">purchase.request</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="view_id" ref="view_purchase_request_tree"/>
+        <field name="search_view_id" ref="view_purchase_request_search"/>
+    </record>
+
+    <menuitem id="menu_purchase_request_root" name="Purchase Request" parent="purchase.menu_procurement_management" sequence="-1" action="action_purchase_request_tree"/>
+</odoo>
